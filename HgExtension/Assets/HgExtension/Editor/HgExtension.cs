@@ -5,6 +5,7 @@ using System.IO;
 
 public class HgExtension : EditorWindow
 {
+
     private string commitMessage = "";
     public static HgPluginWrapper.RepoStatus repoStatus = HgPluginWrapper.RepoStatus.NotSet;
     private static string localPath, remotePath;
