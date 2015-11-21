@@ -6,4 +6,5 @@ HgExtension/Library/*
 HgExtension/obj/*
 Build/*
 HgExtension/Temp/*
-*.zip
+*.zip
+Packages/*
