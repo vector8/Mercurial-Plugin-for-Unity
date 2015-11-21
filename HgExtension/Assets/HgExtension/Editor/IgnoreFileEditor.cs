@@ -23,6 +23,7 @@ public class IgnoreFileEditor : EditorWindow
         {
             System.IO.File.WriteAllText(filePath, ignoreFileContents);
             Close();
+            HgExtension.checkRepoStatus();
         }
         
         if(GUILayout.Button("Cancel"))

@@ -17,6 +17,7 @@ public class HgExtension : EditorWindow
 
     void OnGUI()
     {
+
         if (localPath == null)
         {
             localPath = "";
@@ -24,19 +25,6 @@ public class HgExtension : EditorWindow
         if (remotePath == null)
         {
             remotePath = "";
-        }
-
-        if (localPath.Length == 0 || remotePath.Length == 0)
-        {
-            repoStatus = HgPluginWrapper.RepoStatus.NotSet;
-        }
-        else if(HgPluginWrapper.hasChanged())
-        {
-            repoStatus = HgPluginWrapper.RepoStatus.Dirty;
-        }
-        else
-        {
-            repoStatus = HgPluginWrapper.RepoStatus.Clean;
         }
 
         GUILayout.Space(10f);
@@ -59,6 +47,10 @@ public class HgExtension : EditorWindow
                 statusStyle.normal.textColor = Color.red;
                 GUILayout.Label("No Repo Set", statusStyle);
                 break;
+        }
+        if (GUILayout.Button("Check Now"))
+        {
+            checkRepoStatus();
         }
         GUILayout.EndHorizontal();
 
@@ -95,6 +87,7 @@ public class HgExtension : EditorWindow
         {
             localPath = tempLocal;
             HgPluginWrapper.runCommand(HgPluginWrapper.CommandType.SetLocal, localPath);
+            checkRepoStatus();
         }
         GUILayout.EndHorizontal();
         GUI.SetNextControlName("RemoteField");
@@ -103,6 +96,7 @@ public class HgExtension : EditorWindow
         {
             remotePath = tempRemote;
             HgPluginWrapper.runCommand(HgPluginWrapper.CommandType.SetRemote, remotePath);
+            checkRepoStatus();
         }
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
@@ -110,11 +104,6 @@ public class HgExtension : EditorWindow
         if(focusRemote)
         {
             GUI.FocusControl("RemoteField");
-        }
-
-        if(localPath.Length == 0 || remotePath.Length == 0)
-        {
-            repoStatus = HgPluginWrapper.RepoStatus.NotSet;
         }
 
         GUI.enabled = (localPath.Length > 0);
@@ -141,6 +130,7 @@ public class HgExtension : EditorWindow
         if (GUILayout.Button("Add New Files", GUILayout.MaxWidth(100f)))
         {
             HgPluginWrapper.runCommand(HgPluginWrapper.CommandType.Add);
+            checkRepoStatus();
         }
 
         GUILayout.Space(10f);
@@ -162,6 +152,7 @@ public class HgExtension : EditorWindow
             commitMessage = "";
             GUI.FocusControl("Commit");
             clicked = true;
+            checkRepoStatus();
         }
 
         if(!clicked && GUI.GetNameOfFocusedControl() == "Commit")
@@ -183,5 +174,21 @@ public class HgExtension : EditorWindow
         }
         GUILayout.EndHorizontal();
         GUI.enabled = true;
+    }
+
+    public static void checkRepoStatus()
+    {
+        if (localPath.Length == 0 || remotePath.Length == 0)
+        {
+            repoStatus = HgPluginWrapper.RepoStatus.NotSet;
+        }
+        else if (HgPluginWrapper.hasChanged())
+        {
+            repoStatus = HgPluginWrapper.RepoStatus.Dirty;
+        }
+        else
+        {
+            repoStatus = HgPluginWrapper.RepoStatus.Clean;
+        }
     }
 }
