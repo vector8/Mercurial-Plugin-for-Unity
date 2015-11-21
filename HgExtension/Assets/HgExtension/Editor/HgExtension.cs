@@ -26,6 +26,19 @@ public class HgExtension : EditorWindow
             remotePath = "";
         }
 
+        if (localPath.Length == 0 || remotePath.Length == 0)
+        {
+            repoStatus = HgPluginWrapper.RepoStatus.NotSet;
+        }
+        else if(HgPluginWrapper.hasChanged())
+        {
+            repoStatus = HgPluginWrapper.RepoStatus.Dirty;
+        }
+        else
+        {
+            repoStatus = HgPluginWrapper.RepoStatus.Clean;
+        }
+
         GUILayout.Space(10f);
         
         GUILayout.BeginHorizontal();
@@ -102,10 +115,6 @@ public class HgExtension : EditorWindow
         if(localPath.Length == 0 || remotePath.Length == 0)
         {
             repoStatus = HgPluginWrapper.RepoStatus.NotSet;
-        }
-        else
-        {
-            repoStatus = HgPluginWrapper.RepoStatus.Dirty;
         }
 
         GUI.enabled = (localPath.Length > 0);

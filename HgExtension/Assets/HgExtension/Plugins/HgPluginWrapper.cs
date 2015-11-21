@@ -32,6 +32,8 @@ public static class HgPluginWrapper
     [DllImport(DLL_NAME)]
     private static extern void runCommand(int commandType, string msg);
     [DllImport(DLL_NAME)]
+    public static extern bool hasChanged();
+    [DllImport(DLL_NAME)]
     private static extern bool getErrorStatus();
     [DllImport(DLL_NAME)]
     private static extern System.IntPtr getErrorMessage();
