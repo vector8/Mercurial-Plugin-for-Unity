@@ -175,7 +175,7 @@ public class HgExtension : EditorWindow
         GUILayout.Space(10f);
 
         GUI.enabled = (repoStatus != HgPluginWrapper.RepoStatus.NotSet);
-        if (GUILayout.Button("Update To Latest (Discard Local Changes)"))
+        if (GUILayout.Button("Update To Latest"))
         {
             HgPluginWrapper.runCommand(HgPluginWrapper.CommandType.Update);
             checkRepoStatus();
