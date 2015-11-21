@@ -1,0 +1,9 @@
+syntax: glob
+HgExtension/Library/*
+*.suo
+*.csproj
+*.sln
+HgExtension/obj/*
+Build/*
+HgExtension/Temp/*
+*.zip
