@@ -174,13 +174,13 @@ public class HgExtension : EditorWindow
 
         GUILayout.Space(10f);
 
-        if(GUILayout.Button("Update To Latest (Discard Local Changes)"))
+        GUI.enabled = (repoStatus != HgPluginWrapper.RepoStatus.NotSet);
+        if (GUILayout.Button("Update To Latest (Discard Local Changes)"))
         {
             HgPluginWrapper.runCommand(HgPluginWrapper.CommandType.Update);
             checkRepoStatus();
         }
 
-        GUI.enabled = (repoStatus != HgPluginWrapper.RepoStatus.NotSet);
         GUILayout.BeginHorizontal();
         if(GUILayout.Button("Pull"))
         {
