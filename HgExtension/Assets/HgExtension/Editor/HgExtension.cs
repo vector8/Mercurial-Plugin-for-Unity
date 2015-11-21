@@ -166,11 +166,11 @@ public class HgExtension : EditorWindow
         GUILayout.BeginHorizontal();
         if(GUILayout.Button("Pull"))
         {
-
+            HgPluginWrapper.runCommand(HgPluginWrapper.CommandType.Pull);
         }
         if(GUILayout.Button("Push"))
         {
-
+            HgPluginWrapper.runCommand(HgPluginWrapper.CommandType.Push);
         }
         GUILayout.EndHorizontal();
         GUI.enabled = true;
