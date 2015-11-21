@@ -8,6 +8,7 @@ public class HgExtension : EditorWindow
     private string commitMessage = "";
     public static HgPluginWrapper.RepoStatus repoStatus = HgPluginWrapper.RepoStatus.NotSet;
     private static string localPath, remotePath;
+    private static bool localChanged = false, remoteChanged = false;
 
     [MenuItem("Hg Extension/Hg Control Panel")]
     public static void showWindow()
@@ -63,6 +64,7 @@ public class HgExtension : EditorWindow
         GUILayout.EndVertical();
         GUILayout.BeginVertical();
         GUILayout.BeginHorizontal();
+        GUI.SetNextControlName("LocalField");
         string tempLocal = EditorGUILayout.TextField(localPath);
         bool focusRemote = false;
         if (GUILayout.Button("Browse"))
@@ -85,8 +87,13 @@ public class HgExtension : EditorWindow
         }
         else if (tempLocal != localPath)
         {
+            localChanged = true;
             localPath = tempLocal;
             HgPluginWrapper.runCommand(HgPluginWrapper.CommandType.SetLocal, localPath);
+        }
+        if (localChanged && GUI.GetNameOfFocusedControl() != "LocalField")
+        {
+            localChanged = false;
             checkRepoStatus();
         }
         GUILayout.EndHorizontal();
@@ -94,8 +101,13 @@ public class HgExtension : EditorWindow
         string tempRemote = EditorGUILayout.TextField(remotePath);
         if(tempRemote != remotePath)
         {
+            remoteChanged = true;
             remotePath = tempRemote;
             HgPluginWrapper.runCommand(HgPluginWrapper.CommandType.SetRemote, remotePath);
+        }
+        if (remoteChanged && GUI.GetNameOfFocusedControl() != "RemoteField")
+        {
+            remoteChanged = false;
             checkRepoStatus();
         }
         GUILayout.EndVertical();
